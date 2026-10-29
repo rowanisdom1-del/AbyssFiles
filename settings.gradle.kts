@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "AbyssFiles"
 include(":app")
+include(":launcher")

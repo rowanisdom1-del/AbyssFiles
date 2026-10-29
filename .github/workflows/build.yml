@@ -24,10 +24,12 @@ jobs:
         with:
           gradle-version: "8.7"
 
-      - name: Build release APK
-        run: gradle :app:assembleRelease --no-daemon
+      - name: Build release APKs
+        run: gradle :app:assembleRelease :launcher:assembleRelease --no-daemon
 
       - uses: actions/upload-artifact@v4
         with:
-          name: AbyssFiles-apk
-          path: app/build/outputs/apk/release/*.apk
+          name: Abyss-apks
+          path: |
+            app/build/outputs/apk/release/*.apk
+            launcher/build/outputs/apk/release/*.apk

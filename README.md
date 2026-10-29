@@ -1,4 +1,12 @@
-# Abyss Files
+# Abyss Files + Abyss Home
+
+Two tiny ad-free apps for an Android TV install on a Nintendo Switch (Switchroot):
+
+- **Abyss Files** is the file manager (below).
+- **Abyss Home** is the launcher / home screen: clock, big tiles for Jellyfin, Kodi, Plex, Files and Settings,
+  and a row with all your installed apps. Install it, then press Home and choose **Abyss Home** ("Always").
+
+## Abyss Files
 
 A tiny, ad-free file manager for Android TV (made for a Switchroot / LineageOS Android TV install on a
 Nintendo Switch). Dark "Abyss"-inspired look, built for a controller or remote: everything is reachable with
@@ -13,7 +21,7 @@ no ads, no trackers. The release APK is only a few MB.
 
 1. Create a new GitHub repository and upload everything in this folder (keep the `.github` folder).
 2. Open the **Actions** tab, pick **Build APK**, press **Run workflow**.
-3. When it finishes, open the run and download the **AbyssFiles-apk** artifact (a zip containing the APK).
+3. When it finishes, open the run and download the **Abyss-apks** artifact (a zip with both APKs).
 4. If the build fails, open the failed step and send me the red error text. I'll fix it.
 
 ## Install on the Switch (Android)
