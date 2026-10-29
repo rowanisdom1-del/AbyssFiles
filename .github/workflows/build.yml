@@ -1,9 +1,13 @@
-name: Build APK
+name: Build APKs
 
 on:
   push:
     branches: [main]
+    tags: ["v*"]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -27,9 +31,23 @@ jobs:
       - name: Build release APKs
         run: gradle :app:assembleRelease :launcher:assembleRelease --no-daemon
 
+      - name: Collect files
+        run: |
+          mkdir dist
+          cp app/build/outputs/apk/release/*.apk dist/AbyssFiles.apk
+          cp launcher/build/outputs/apk/release/*.apk dist/AbyssHome.apk
+          cp bootanimation/bootanimation.zip dist/bootanimation.zip
+
       - uses: actions/upload-artifact@v4
         with:
           name: Abyss-apks
-          path: |
-            app/build/outputs/apk/release/*.apk
-            launcher/build/outputs/apk/release/*.apk
+          path: dist/*
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --title "Abyss $GITHUB_REF_NAME" \
+            --notes "Install on the Switch (Android TV): AbyssHome.apk (launcher) and AbyssFiles.apk (file manager). bootanimation.zip is the optional boot animation (needs root, see bootanimation/README.md)."
