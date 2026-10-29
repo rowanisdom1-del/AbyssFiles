@@ -5,6 +5,10 @@ on:
     branches: [main]
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version tag (e.g. v0.1)"
+        default: "v0.1"
 
 permissions:
   contents: write
@@ -44,10 +48,12 @@ jobs:
           path: dist/*
 
       - name: Publish release
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ github.token }}
+          INPUT_VERSION: ${{ github.event.inputs.version }}
         run: |
-          gh release create "$GITHUB_REF_NAME" dist/* \
-            --title "Abyss $GITHUB_REF_NAME" \
+          TAG="${INPUT_VERSION:-$GITHUB_REF_NAME}"
+          gh release create "$TAG" dist/* --target "$GITHUB_SHA" \
+            --title "Abyss $TAG" \
             --notes "Install on the Switch (Android TV): AbyssHome.apk (launcher) and AbyssFiles.apk (file manager). bootanimation.zip is the optional boot animation (needs root, see bootanimation/README.md)."
